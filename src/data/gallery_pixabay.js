@@ -18,25 +18,27 @@ const imageApiService = new ImageApiServise();
 
 function onSearch(e) {
     e.preventDefault();
+
     imageApiService.query = e.currentTarget.elements.query.value;
     imageApiService.resetPage();
-    imageApiService.fetchImage()
+    imageApiService.fetchImage().then(hits => {
+        clearImageMarkup();
+        appendImagesMarkup(hits);
+    });
 
-    //     .then(data => {
-    //     const markup = galleryImagesTpl(data.hits);
-    //     // console.log(data.hits)
-    //     // console.log(markup);
-    //    return refs.gallery.insertAdjacentHTML('beforeend', markup);
-    // });
 }
 
 function onLoadMore() {
-    imageApiService.incremetPage();
-    imageApiService.fetchImage()
-        // .then(data => {
-        // const markup = galleryImagesTpl(data.hits);
-        // // console.log(data.hits)
-        // // console.log(markup);
-        // return refs.gallery.insertAdjacentHTML('beforeend', markup);
-    // });
+    
+    imageApiService.fetchImage().then(appendImagesMarkup);
+      
 }
+
+function appendImagesMarkup(hits) {
+    refs.gallery.insertAdjacentHTML('beforeend', galleryImagesTpl(hits));
+}
+
+function clearImageMarkup() {
+    refs.gallery.innerHTML = '';
+}
+
