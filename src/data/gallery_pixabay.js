@@ -21,6 +21,4 @@ function onSearch(e) {
         // console.log(markup);
        return refs.gallery.insertAdjacentHTML('beforeend', markup);
     });
-
-  
 }
