@@ -2,6 +2,7 @@
 import galleryImagesTpl from '../templates/gallery_image.hbs';
 import ImageApiServise from './api-servise';
 import refs from './refs';
+import LoadMoreBtn from './load-more-btn';
 import '@pnotify/core/dist/BrightTheme.css';
 import '@pnotify/core/dist/PNotify.css';
 import { error } from '@pnotify/core';
@@ -9,11 +10,15 @@ import { defaults } from '@pnotify/core';
 
 defaults.delay = 2000;
 
-refs.searchForm.addEventListener('submit', onSearch);
-refs.LoadMoreBtn.addEventListener('click', onLoadMore);
+const loadMoreBtn = new LoadMoreBtn({
+  selector: '[data-action="load-more"]',
+  hidden: true,
+});
 
 const imageApiService = new ImageApiServise();
 
+refs.searchForm.addEventListener('submit', onSearch);
+loadMoreBtn.refs.button.addEventListener('click', fetchData);
 
 
 function onSearch(e) {
@@ -23,24 +28,24 @@ function onSearch(e) {
 
     if (imageApiService.query === '') {
         clearImageMarkup();
+        loadMoreBtn.hide();
         return error({
-                title: "Error",
-                text: "Please enter query!"
-            });
+            title: "Error",
+            text: "Please enter query!"
+        });
     }
-
+    loadMoreBtn.show();
     imageApiService.resetPage();
-    imageApiService.fetchImage().then(hits => {
-        clearImageMarkup();
-        appendImagesMarkup(hits);
-    });
-
+    clearImageMarkup();
+    fetchData();
 }
 
-function onLoadMore() {
-    
-    imageApiService.fetchImage().then(appendImagesMarkup);
-      
+function fetchData() {
+loadMoreBtn.disable();
+    imageApiService.fetchImage().then(hits => {
+        appendImagesMarkup(hits);
+        loadMoreBtn.enable();
+    });
 }
 
 function appendImagesMarkup(hits) {
