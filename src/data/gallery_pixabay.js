@@ -18,8 +18,11 @@ const loadMoreBtn = new LoadMoreBtn({
 const imageApiService = new ImageApiServise();
 
 refs.searchForm.addEventListener('submit', onSearch);
-loadMoreBtn.refs.button.addEventListener('click', fetchData);
+loadMoreBtn.refs.button.addEventListener('click', onLoadMoreBtn);
 
+function onLoadMoreBtn() {
+    fetchData();
+}
 
 function onSearch(e) {
     e.preventDefault();
