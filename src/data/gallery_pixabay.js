@@ -3,6 +3,8 @@ import galleryImagesTpl from '../templates/gallery_image.hbs';
 import ImageApiServise from './api-servise';
 import refs from './refs';
 import LoadMoreBtn from './load-more-btn';
+import * as basicLightbox from 'basiclightbox';
+import 'basiclightbox/dist/basicLightbox.min.css';
 import '@pnotify/core/dist/BrightTheme.css';
 import '@pnotify/core/dist/PNotify.css';
 import { error } from '@pnotify/core';
@@ -18,15 +20,22 @@ const loadMoreBtn = new LoadMoreBtn({
 const imageApiService = new ImageApiServise();
 
 refs.searchForm.addEventListener('submit', onSearch);
+refs.gallery.addEventListener('click', onImageclick);
 loadMoreBtn.refs.button.addEventListener('click', onLoadMoreBtn);
 
-function onLoadMoreBtn() {
-    fetchData();
-}
+function onImageclick(e) {
+    
+    const largeImage = e.target.dataset.source;
+    console.log(largeImage);
+    const instance = basicLightbox.create(`<img src="${largeImage}" alt="image"  />`);
 
+    instance.show();
+}
+    
 function onSearch(e) {
     e.preventDefault();
-
+    const largeImage = e.currentTarget.dataset.value;
+    console.log(largeImage);
     imageApiService.query = e.currentTarget.elements.query.value;
 
     if (imageApiService.query === '') {
@@ -40,6 +49,10 @@ function onSearch(e) {
     loadMoreBtn.show();
     imageApiService.resetPage();
     clearImageMarkup();
+    fetchData();
+}
+
+function onLoadMoreBtn() {
     fetchData();
 }
 
