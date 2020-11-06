@@ -9,7 +9,7 @@ export default class ImageApiServise {
     }
 
     fetchImage() {
-       console.log(this)
+    //    console.log(this)
     
         const url = `${BASE_URL}/?image_type=photo&orientation=horizontal&q=${this.searchName}&page=${this.page}&per_page=12&key=${API_KEY}`;
        return fetch(url)
@@ -17,7 +17,7 @@ export default class ImageApiServise {
            .then(({ hits }) => {
                this.incrementPage();
                return hits ;
-            }) 
+           }) 
     }
 
     incrementPage() {

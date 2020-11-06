@@ -24,9 +24,9 @@ refs.gallery.addEventListener('click', onImageclick);
 loadMoreBtn.refs.button.addEventListener('click', onLoadMoreBtn);
 
 function onImageclick(e) {
-    
+     e.preventDefault();
     const largeImage = e.target.dataset.source;
-    console.log(largeImage);
+    // console.log(largeImage);
     const instance = basicLightbox.create(`<img src="${largeImage}" alt="image"  />`);
 
     instance.show();
@@ -34,8 +34,6 @@ function onImageclick(e) {
     
 function onSearch(e) {
     e.preventDefault();
-    const largeImage = e.currentTarget.dataset.value;
-    console.log(largeImage);
     imageApiService.query = e.currentTarget.elements.query.value;
 
     if (imageApiService.query === '') {
@@ -59,6 +57,14 @@ function onLoadMoreBtn() {
 function fetchData() {
 loadMoreBtn.disable();
     imageApiService.fetchImage().then(hits => {
+        if (hits.length === 0) {
+        clearImageMarkup();
+    loadMoreBtn.hide();
+      return error({
+            title: "Error",
+            text: "Image not found! Repeat query!"
+        });
+    }
         appendImagesMarkup(hits);
         loadMoreBtn.enable();
     });
