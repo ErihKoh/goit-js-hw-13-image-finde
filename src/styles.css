@@ -58,9 +58,14 @@ input {
 
 .stats {
   display: flex;
-  flex-direction: row;
+  /* flex-direction: row; */
   justify-content: space-between;
   padding-top: 10px;
+  text-align: center;
+}
+
+i {
+  display: block;
 }
 /* 
 .stats-items {
