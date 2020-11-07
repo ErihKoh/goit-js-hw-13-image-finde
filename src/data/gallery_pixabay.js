@@ -44,6 +44,9 @@ function onSearch(e) {
             text: "Please enter query!"
         });
     }
+    
+
+    imageApiService.incrementPage();
     loadMoreBtn.show();
     imageApiService.resetPage();
     clearImageMarkup();
@@ -51,12 +54,17 @@ function onSearch(e) {
 }
 
 function onLoadMoreBtn() {
+   
     fetchData();
+       
 }
+    
+    
 
 function fetchData() {
 loadMoreBtn.disable();
-    imageApiService.fetchImage().then(hits => {
+    try {
+       imageApiService.fetchImage().then(({hits}) => {
         if (hits.length === 0) {
         clearImageMarkup();
     loadMoreBtn.hide();
@@ -68,6 +76,11 @@ loadMoreBtn.disable();
         appendImagesMarkup(hits);
         loadMoreBtn.enable();
     });
+    } catch (error) {
+        console.log('ошибка в fetchData', error);
+    }
+    
+    
 }
 
 function appendImagesMarkup(hits) {
