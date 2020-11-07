@@ -24,7 +24,11 @@ refs.gallery.addEventListener('click', onImageclick);
 loadMoreBtn.refs.button.addEventListener('click', onLoadMoreBtn);
 
 function onImageclick(e) {
-     e.preventDefault();
+    e.preventDefault();
+    
+    if (e.target.nodeName !== 'IMG') {
+        return;
+    }
     const largeImage = e.target.dataset.source;
     // console.log(largeImage);
     const instance = basicLightbox.create(`<img src="${largeImage}" alt="image"  />`);
@@ -45,8 +49,6 @@ function onSearch(e) {
         });
     }
     
-
-    imageApiService.incrementPage();
     loadMoreBtn.show();
     imageApiService.resetPage();
     clearImageMarkup();
@@ -80,11 +82,17 @@ loadMoreBtn.disable();
         console.log('ошибка в fetchData', error);
     }
     
-    
+     imageApiService.incrementPage();
 }
 
 function appendImagesMarkup(hits) {
+     let movePage = refs.gallery.offsetHeight;
     refs.gallery.insertAdjacentHTML('beforeend', galleryImagesTpl(hits));
+    console.log(top)
+  window.scrollTo({
+    top: movePage,
+    behavior: "smooth",
+  });
 }
 
 function clearImageMarkup() {
