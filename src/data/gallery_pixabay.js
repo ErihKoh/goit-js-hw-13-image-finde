@@ -58,28 +58,35 @@ function onSearch(e) {
     fetchData();
 }
 
-function fetchData() {
-loadMoreBtn.disable();
+async function fetchData() {
+
+    loadMoreBtn.disable();
+
     try {
 
-        imageApiService.fetchImage().then(({ hits }) => {
-           
-            if (hits.length === 0) {
+    // imageApiService.fetchImage().then(({ hits }) => {
+     
+      const {hits} = await imageApiService.fetchImage();
+
+    // console.log(hits);
+    
+      if (hits.length === 0) {
             
-                clearImageMarkup();
-                loadMoreBtn.hide();
+        clearImageMarkup();
+        loadMoreBtn.hide();
                 
-                return error({
+        return error({
               
-                  title: "Error",
-                  text: "Image not found! Repeat query!"
+            title: "Error",
+            text: "Image not found! Repeat query!"
         });
     }
-        appendImagesMarkup(hits);
-        loadMoreBtn.enable();
-    });
+      appendImagesMarkup(hits);
+      loadMoreBtn.enable();
+
+    
     } catch (error) {
-        console.log('ошибка в fetchData', error);
+      console.log('ошибка в fetchData', error);
     }
     
      imageApiService.incrementPage();
