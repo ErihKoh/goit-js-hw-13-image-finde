@@ -42,8 +42,10 @@ function onSearch(e) {
     imageApiService.query = e.currentTarget.elements.query.value;
 
     if (imageApiService.query === '') {
+
         clearImageMarkup();
         loadMoreBtn.hide();
+
         return error({
             title: "Error",
             text: "Please enter query!"
@@ -59,13 +61,18 @@ function onSearch(e) {
 function fetchData() {
 loadMoreBtn.disable();
     try {
-       imageApiService.fetchImage().then(({hits}) => {
-        if (hits.length === 0) {
-        clearImageMarkup();
-    loadMoreBtn.hide();
-      return error({
-            title: "Error",
-            text: "Image not found! Repeat query!"
+
+        imageApiService.fetchImage().then(({ hits }) => {
+           
+            if (hits.length === 0) {
+            
+                clearImageMarkup();
+                loadMoreBtn.hide();
+                
+                return error({
+              
+                  title: "Error",
+                  text: "Image not found! Repeat query!"
         });
     }
         appendImagesMarkup(hits);
@@ -79,11 +86,14 @@ loadMoreBtn.disable();
 }
 
 function appendImagesMarkup(hits) {
-     let movePage = refs.gallery.offsetHeight;
+    let movePage = refs.gallery.offsetHeight;
     refs.gallery.insertAdjacentHTML('beforeend', galleryImagesTpl(hits));
-  window.scrollTo({
-    top: movePage,
-    behavior: "smooth",
+
+    window.scrollTo({
+
+      top: movePage,
+      behavior: "smooth",
+      
   });
 }
 
