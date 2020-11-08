@@ -81,7 +81,6 @@ loadMoreBtn.disable();
 function appendImagesMarkup(hits) {
      let movePage = refs.gallery.offsetHeight;
     refs.gallery.insertAdjacentHTML('beforeend', galleryImagesTpl(hits));
-    console.log(top)
   window.scrollTo({
     top: movePage,
     behavior: "smooth",
