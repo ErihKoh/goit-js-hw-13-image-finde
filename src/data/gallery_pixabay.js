@@ -21,7 +21,8 @@ const imageApiService = new ImageApiServise();
 
 refs.searchForm.addEventListener('submit', onSearch);
 refs.gallery.addEventListener('click', onImageclick);
-loadMoreBtn.refs.button.addEventListener('click', onLoadMoreBtn);
+loadMoreBtn.refs.button.addEventListener('click', fetchData);
+
 
 function onImageclick(e) {
     e.preventDefault();
@@ -54,14 +55,6 @@ function onSearch(e) {
     clearImageMarkup();
     fetchData();
 }
-
-function onLoadMoreBtn() {
-   
-    fetchData();
-       
-}
-    
-    
 
 function fetchData() {
 loadMoreBtn.disable();
