@@ -56,7 +56,7 @@ input {
 
 .photo-card {
   margin: 15px;
-  padding-bottom: 70px;
+  /* padding-bottom: 70px; */
 }
 /* .photo-card:not(:last-child) {
   margin-right: 40px;

@@ -93,12 +93,12 @@ async function fetchData() {
 }
 
 function appendImagesMarkup(hits) {
-    let movePage = refs.gallery.scrollHeight;
+    let movePage = document.body.scrollHeight;
     refs.gallery.insertAdjacentHTML('beforeend', galleryImagesTpl(hits));
-
-  console.log(refs.gallery.offsetHeight);
-  console.log(refs.gallery.scrollTop);
-  console.log(refs.gallery.scrollHeight);
+  console.log(movePage);
+  // document.body.scrollHeight
+  console.log(document.body.scrollHeight);
+ 
     window.scrollTo({
 
       top: movePage,
